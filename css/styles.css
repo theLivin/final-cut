@@ -1,0 +1,173 @@
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+form input[type="submit"] {
+  font-size: 100%;
+  color: red;
+}
+
+.gray {
+  color: rgba(153, 153, 153, 0.651);
+}
+
+.jumbotron {
+  background-color: rgba(110, 104, 104, 0.3);
+  background-image: url("../img/clapperboard.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: contain;
+  background-position-x: center;
+  background-size: cover;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-header a.btn * {
+  font-weight: bold;
+}
+
+.modal-content {
+  background-color: rgba(37, 35, 35, 0.9);
+  color: #fff;
+}
+
+.modal li {
+  list-style-type: none;
+}
+
+.modal ul {
+  padding: 0;
+}
+
+.logo {
+  font-family: "Alfa Slab One", cursive;
+}
+
+p.lead {
+  font-size: 1em;
+  color: white;
+}
+
+/* Movie */
+.poster {
+  width: 220px;
+  height: 316px;
+  margin-bottom: 50px;
+}
+
+.poster .image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+}
+
+.poster .middle {
+  transition: 0.5s ease;
+  position: absolute;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  width: 80%;
+}
+
+.title {
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  font-family: inherit;
+}
+
+.poster:hover .image {
+  filter: blur(1px);
+  z-index: 0;
+}
+
+.poster:hover .middle {
+  opacity: 1;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.poster:hover .dark-overlay {
+  opacity: 0.3;
+  display: inline;
+}
+
+.poster .dark-overlay {
+  position: absolute; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+.straight-right {
+  border-radius: 10px 10px 10px 10px;
+}
+
+.straight-left {
+  border-radius: 0 10px 10px 0px;
+}
+
+.years-list {
+  color: white;
+  justify-content: center;
+}
+
+.years-list li {
+  list-style-type: none;
+  display: inline-block;
+}
+
+/* Media Queries */
+@media (max-width: 766px) {
+  .straight-right {
+    border-radius: 0px !important;
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+    margin-bottom: 0px !important;
+    text-align: center;
+  }
+
+  .straight-left {
+    border-radius: 0px !important;
+    border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+  }
+
+  .horz-dot {
+    border-top: 2px dotted;
+    width: 2%;
+  }
+}
+
+@media (max-width: 960px) {
+  #all-movies *,
+  #movieModal .poster-img-area {
+    margin: 0 auto 0;
+  }
+}
+@media (min-width: 920px) {
+  .jumbotron {
+    width: 70%;
+    margin-left: 50%;
+    transform: translate(-50%);
+  }
+}

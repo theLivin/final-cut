@@ -182,7 +182,6 @@ let app = new Vue({
       // add all available years to object
       this.movieYears = [];
       this.filteredMovies = {};
-      this.moviesList = this.movies;
       let foundYears = {};
       $.each(this.movies, (index, movie) => {
         foundYears[movie.Year] = movie.Year;

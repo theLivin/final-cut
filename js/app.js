@@ -8,13 +8,13 @@ Vue.component("movie-years", {
   },
   template: `
   <ul>
-    <li v-for="movieYear in years">
+    <li v-for="(movieYear, index) in years" :key="movieYear+index+Math.random()">
       <input type="checkbox" class="m-1 bg-warning" @change='checkboxChanged(movieYear)'/> {{ movieYear }}
     </li>
   </ul>
   `,
   methods: {
-    checkboxChanged(movieYear) {
+    checkboxChanged: function (movieYear) {
       eventBus.$emit("year-checkbox-changed", movieYear);
       // alert(movieYear);
     },
@@ -85,15 +85,15 @@ Vue.component("movie-modal", {
   </div>
   `,
   computed: {
-    posterImage() {
+    posterImage: function () {
       if (this.movie.Poster == "N/A" || !this.movie.Poster)
         return "http://placeimg.com/220/316/any";
       return this.movie.Poster;
     },
-    url() {
+    url: function () {
       return "http://imdb.com/title/" + this.movie.imdbID;
     },
-    movieDetails() {
+    movieDetails: function () {
       return (({ Genre, Director, Production, Released, Writer, Actors }) => ({
         Genre,
         Director,
@@ -126,7 +126,7 @@ Vue.component("search-form", {
     };
   },
   methods: {
-    onSubmit() {
+    onSubmit: function () {
       eventBus.$emit("get-movies", this.searchTitle);
     },
   },
@@ -154,14 +154,14 @@ Vue.component("movie-poster", {
     </div>
     `,
   computed: {
-    posterImage() {
+    posterImage: function () {
       if (this.movie.Poster == "N/A" || !this.movie.Poster)
         return "http://placeimg.com/220/316/any";
       return this.movie.Poster;
     },
   },
   methods: {
-    posterClicked(id) {
+    posterClicked: function (id) {
       eventBus.$emit("poster-clicked", id);
     },
   },
@@ -177,20 +177,27 @@ let app = new Vue({
     filteredMovies: {},
     currentMovie: {},
   },
+  watch: {
+    movies: function () {
+      // add all available years to object
+      this.movieYears = [];
+      this.filteredMovies = {};
+      this.moviesList = this.movies;
+      let foundYears = {};
+      $.each(this.movies, (index, movie) => {
+        foundYears[movie.Year] = movie.Year;
+      });
+      this.movieYears.push(foundYears);
+    },
+  },
   methods: {
-    getMovies(title) {
+    getMovies: function (title) {
       if (title != "" && this.searchString !== title) {
         axios
           .get("http://www.omdbapi.com/?apikey=ff0be5a3&s=" + title)
           .then((response) => {
             // console.log(response);
             this.movies = response.data.Search;
-            // add all available years to object
-            let foundYears = {};
-            $.each(this.movies, (index, movie) => {
-              foundYears[movie.Year] = movie.Year;
-            });
-            this.movieYears.push(foundYears);
           })
           .catch((err) => {
             console.log(err);
@@ -198,7 +205,7 @@ let app = new Vue({
         this.searchString = title;
       }
     },
-    getMovieDetails(movieId) {
+    getMovieDetails: function (movieId) {
       // console.log(movieId);
       axios
         .get("http://www.omdbapi.com/?apikey=ff0be5a3&i=" + movieId)
@@ -209,7 +216,7 @@ let app = new Vue({
         .catch((error) => console.log(error));
       $("#movieModal").modal("toggle");
     },
-    filterMoviesByYear(filterYear) {
+    filterMoviesByYear: function (filterYear) {
       // alert(filterYear);
       if (this.yearsForFiltering[filterYear]) {
         delete this.yearsForFiltering[filterYear];
@@ -233,15 +240,15 @@ let app = new Vue({
     // console.log(this.movieYears[0]);
   },
   computed: {
-    moviesList() {
+    movieYearsList: function () {
+      return this.movieYears[0];
+    },
+    moviesList: function () {
       if (Object.values(this.filteredMovies).length > 0) {
         return this.filteredMovies;
       } else {
         return this.movies;
       }
-    },
-    movieYearsList() {
-      return this.movieYears[0];
     },
   },
 });
